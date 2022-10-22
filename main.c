@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:29:59 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/22 16:43:47 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/22 22:23:23 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@ int	remove_everything(t_data *data)
 //the 2D array of the coordinates 
 //the img
 //the window
-
-
-
 //every point have thier own coordinate (x, y z)
 //draw line is used to connec the dots
 //rotation/ transformation/ is apply to points and then only draw lines
@@ -50,36 +47,36 @@ int	keyhook_handler(int keycode, t_data *data)
 	return (0);
 }
 
-// int	error_checking(int argc, char *argv)
-// {
-// 	if (argc != 2)
-// 	{
-// 		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
-// 		return (0);
-// 	}
-// 	else if (ft_strnstr(argv , "./fdf", ft_strlen(argv)) == NULL)
-// 	{
-// 		ft_putstr_fd("Error: Plsease provide a valide file", 2);
-// 		return (0);
-// 	}
-// }
-
+int error_checking(int argc, char **argv)
+{
+	if (argc != 2)
+	{
+		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
+		return (0);
+	}
+	else if (ft_strnstr(argv[1], ".fdf", ft_strlen(argv[1])) == NULL)
+	{
+		ft_putstr_fd("Error: Plsease provide a valide file\n", 2);
+		return (0);
+	}
+	return (1);
+}
 
 int	main(int argc, char **argv)
 {
 	t_data	*img;
 
-	if (argc != 2)
-		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
+	if (error_checking(argc, argv) == 0)
+		return (0);
 	img = malloc(sizeof(t_data));
+	init_data(img);
+	count_row_column(img, argv);
 	img->img = malloc(sizeof(t_img));
 	img->mlx = mlx_init();
 	img->mlx_win = mlx_new_window(img->mlx, 1920, 1080, "2months");
 	img->img->img = mlx_new_image(img->mlx, 1920, 1080);
 	img->img->addr = mlx_get_data_addr(img->img->img, &img->img->bpp, \
 				&img->img->linelen, &img->img->end);
-	init_data(img);
-	count_row_column(img, argv);
 	malloc_coordinates(img);
 	insert_coordinates_xy(img, argv);
 	isometric_rotation(img);

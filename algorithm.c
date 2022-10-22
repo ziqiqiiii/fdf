@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 12:56:36 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/22 15:51:31 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/22 21:01:47 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void	insert_coordinates_z(t_data *data, char **argv)
 	int		j;
 
 	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		return ;
 	j = 0;
 	while (1)
 	{

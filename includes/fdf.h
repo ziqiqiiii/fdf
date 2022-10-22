@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 15:27:15 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/22 16:40:53 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/22 21:00:43 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <string.h>
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 
@@ -56,6 +57,7 @@ typedef struct s_data
 
 //pasing functions
 void	count_row_column(t_data *data, char **argv);
+void	printing_error(t_data *data, char *error);
 
 //initialise
 void	init_data(t_data *data);
