@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 17:07:07 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/09/16 19:24:27 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/11 21:29:53 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*too_easy_project(char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	buf[999999999];
+	static char	buf[10000];
 	char		read_buf[BUFFER_SIZE + 1];
 	int			num;
 

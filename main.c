@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:29:59 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/09/25 17:46:17 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/22 16:43:47 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,105 +16,76 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * 4);
+	dst = data->img->addr + (y * data->img->linelen + x * 4);
 	*(unsigned int *)dst = color;
 }
 
-int	cal_coords(int start, int end)
+int	remove_everything(t_data *data)
 {
-	return (end - start);
+	mlx_destroy_image(data->mlx, data->img->img);
+	mlx_destroy_window(data->mlx, data->mlx_win);
+	while (data->nrow--)
+		free(data->coors[data->nrow]);
+	free(data->coors);
+	free(data->img);
+	free(data);
+	exit(0);
 }
+//the 2D array of the coordinates 
+//the img
+//the window
 
-void	draw_line(t_data *data, int xstart, int ystart, int xend, int yend,int color)
+
+
+//every point have thier own coordinate (x, y z)
+//draw line is used to connec the dots
+//rotation/ transformation/ is apply to points and then only draw lines
+// 	// data->ncol = i + 1;
+// }
+
+int	keyhook_handler(int keycode, t_data *data)
 {
-	double	dx;
-	double	dy;
-	double	pixelx;
-	double	pixely;
-	int		pixels;
-
-	dx = xend - xstart;
-	dy = yend - ystart;
-	pixels = sqrt((dx * dx) + (dy * dy));
-	dx /= pixels;
-	dy /= pixels;
-	pixelx = xstart;
-	pixely = ystart;
-	while (pixels > 0)
-	{
-		my_mlx_pixel_put(data, pixelx, pixely, color);
-		pixelx += dx;
-		pixely += dy;
-		--pixels;
-	}
+	if (keycode == 53)
+		remove_everything(data);
+	return (0);
 }
 
-void	draw_grid(t_data *data, int xstart, int ystart, int xend, int yend, int n_row, int n_column, int color)
-{	
-	double	dx;
-	double	dy;
-	double	dr;
-	double	dc;
-	double	a;
-
-	dx = xend - xstart;
-	dy = yend - ystart;
-	dr = dy / n_row;
-	dc = dx / n_column;
-	a = xstart;
-	while (a <= xend)
-	{
-		draw_line(data, a, ystart, a, yend, color);
-		a += dc;
-	}
-	a = ystart;
-	while (a <= yend)
-	{
-		draw_line(data, xstart, a, xend, a, color);
-		a += dr;
-	}
-}
-//draw_line() is basically using pythagorus theorum, 
-//That's why sqrt is being used.
-//dx /= pixels is just ratio how much needed to move along the x-axis
-//dy /= pixels do the same with y-aixs
+// int	error_checking(int argc, char *argv)
+// {
+// 	if (argc != 2)
+// 	{
+// 		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
+// 		return (0);
+// 	}
+// 	else if (ft_strnstr(argv , "./fdf", ft_strlen(argv)) == NULL)
+// 	{
+// 		ft_putstr_fd("Error: Plsease provide a valide file", 2);
+// 		return (0);
+// 	}
+// }
 
 
 int	main(int argc, char **argv)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img0;
-	// t_data	data;
-	// int i;
+	t_data	*img;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img0.img = mlx_new_image(mlx, 1920, 1080);
-	img0.addr = mlx_get_data_addr(img0.img, &img0.bits_per_pixel, &img0.line_length, &img0.endian);
-	// if (argc != 2)
-	// {
-	// 	ft_putstr_fd("Error: Wrong number of arguments\n", 2);
-	// 	return (0);
-	// }
-	// else
-	// {
-	// 	init_data(&data);
-	// 	count_row_column(&data, argv);
-	// }
-	// i = 0;
-	// draw_map(&data, argv);
-	// while (i < data.nrow)
-	// {
-	// 	printf("%s", data.map[i]);
-	// 	i++;
-	// }
-	// draw_line(&img0, 500, 300, 1500, 300, 0x00CEA866);
-	// draw_line(&img0, 500, 900, 1500, 900, 0x00ADD0CA);
-	// draw_line(&img0, 500, 300, 500, 900, 0x00CEEEA5);
-	// draw_line(&img0, 1500, 300, 1500, 900, 0x0095D6D0);
-	draw_grid(&img0, 500, 100, 1500, 900, 30, 20, 0x00EBDEA9);
-	mlx_put_image_to_window(mlx, mlx_win, img0.img, 0, 0);
-	mlx_loop(mlx);
+	if (argc != 2)
+		ft_putstr_fd("Error: Wrong number of arguments\n", 2);
+	img = malloc(sizeof(t_data));
+	img->img = malloc(sizeof(t_img));
+	img->mlx = mlx_init();
+	img->mlx_win = mlx_new_window(img->mlx, 1920, 1080, "2months");
+	img->img->img = mlx_new_image(img->mlx, 1920, 1080);
+	img->img->addr = mlx_get_data_addr(img->img->img, &img->img->bpp, \
+				&img->img->linelen, &img->img->end);
+	init_data(img);
+	count_row_column(img, argv);
+	malloc_coordinates(img);
+	insert_coordinates_xy(img, argv);
+	isometric_rotation(img);
+	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img->img, 0, 0);
+	mlx_key_hook(img->mlx_win, keyhook_handler, img);
+	mlx_hook(img->mlx_win, 17, 0, remove_everything, img);
+	mlx_loop(img->mlx);
 	return (0);
 }

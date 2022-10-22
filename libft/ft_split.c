@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:52:35 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/06/03 13:52:02 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/03 16:02:56 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	number_wd(char *str, char c)
 		if (compare(str[i], c))
 		{
 			number++;
-			while (compare(str[i], c) && str[i] != '\0')
+			while (compare(str[i], c) && (str[i] != '\0'))
 				i++;
 		}
 		else
@@ -46,8 +46,11 @@ static int	num_char(char *s, char c)
 	int	count;
 
 	count = 0;
-	while (compare(*s, c) == 1 && *s++ != '\0')
+	while (compare(*s, c) == 1 && *s != '\0' && *s != '\n')
+	{
 		count++;
+		s++;
+	}
 	return (count);
 }
 
@@ -64,7 +67,7 @@ char	**ft_split(char const *s, char c)
 	if (!outcome)
 		return (NULL);
 	i = 0;
-	while (*a)
+	while (*a != '\0' && *a != '\n')
 	{
 		if (compare(*a, c) == 1)
 		{
