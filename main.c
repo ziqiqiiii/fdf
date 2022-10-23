@@ -6,11 +6,11 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:29:59 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/22 22:23:23 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/23 17:06:14 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "./includes/fdf.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -47,7 +47,7 @@ int	keyhook_handler(int keycode, t_data *data)
 	return (0);
 }
 
-int error_checking(int argc, char **argv)
+int	error_checking(int argc, char **argv)
 {
 	if (argc != 2)
 	{
@@ -79,7 +79,7 @@ int	main(int argc, char **argv)
 				&img->img->linelen, &img->img->end);
 	malloc_coordinates(img);
 	insert_coordinates_xy(img, argv);
-	isometric_rotation(img);
+	isometric_rotation(img, degtorad(30), degtorad(60));
 	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img->img, 0, 0);
 	mlx_key_hook(img->mlx_win, keyhook_handler, img);
 	mlx_hook(img->mlx_win, 17, 0, remove_everything, img);

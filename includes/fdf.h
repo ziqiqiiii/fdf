@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 15:27:15 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/22 21:00:43 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/23 17:48:57 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_coor
 	int	x;
 	int	y;
 	int	z;
+	int	color;
 }	t_coor;
 
 typedef struct s_img
@@ -45,9 +46,9 @@ typedef struct s_data
 	t_img	*img;
 	void	*mlx;
 	void	*mlx_win;
-	int		color;
 	int		nrow;
 	int		ncol;
+	int		color;
 	int		grid_gapsize;
 	t_coor	**coors;
 	t_coor	center;
@@ -59,17 +60,18 @@ typedef struct s_data
 void	count_row_column(t_data *data, char **argv);
 void	printing_error(t_data *data, char *error);
 
-//initialise
+//utilities
 void	init_data(t_data *data);
-void	input_value_color(t_data *data, int color);
 void	malloc_coordinates(t_data *data);
 void	grid_gapsize(t_data *data);
+double	degtorad(double degree);
+int		ft_htoi(char *str);
 
 //algorithm
 void	draw_line(t_data *data, t_coor *start, t_coor *end);
 void	insert_coordinates_xy(t_data *data, char **argv);
 void	insert_coordinates_z(t_data *data, char **argv);
-void	isometric_rotation(t_data *data);
+void	isometric_rotation(t_data *data, double x_value, double y_value);
 void	print_grid_line(t_data *data);
 
 //main.c

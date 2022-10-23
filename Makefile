@@ -6,7 +6,7 @@
 #    By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/28 15:02:52 by tzi-qi            #+#    #+#              #
-#    Updated: 2022/10/22 14:41:21 by tzi-qi           ###   ########.fr        #
+#    Updated: 2022/10/23 15:38:42 by tzi-qi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC_DIR	 	= ./
 OBJ_DIR		= ./obj
 GNL_DIR		= ./get_next_line
 
-SRCS		= main.c parsing.c initialise.c algorithm.c
+SRCS		= main.c parsing.c utilities.c algorithm.c insert_coordinates.c
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 GNL_SRCS	= get_next_line.c get_next_line_utils.c

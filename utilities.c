@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialise.c                                       :+:      :+:    :+:   */
+/*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:17:34 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/22 13:24:22 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/23 18:16:23 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "./includes/fdf.h"
+
+double	degtorad(double degree)
+{
+	return (degree * M_PI / 180);
+}
 
 void	init_data(t_data *data)
 {
 	data->nrow = 0;
 	data->ncol = 0;
-	input_value_color(data, 0x00F5C9A6);
-}
-
-void	input_value_color(t_data *data, int color)
-{
-	data->color = color;
 }
 
 void	grid_gapsize(t_data *data)
@@ -32,21 +31,21 @@ void	grid_gapsize(t_data *data)
 		data->grid_gapsize = (1920 / 4) / data->ncol;
 }
 
-void	malloc_coordinates(t_data *data)
+int	ft_htoi(char *str)
 {
-	t_coor	**coors;
-	int		i;
+	int	num;
 
-	i = 0;
-	coors = malloc(sizeof(t_coor *) * data->nrow);
-	if (!coors)
-		return ;
-	while (i < data->nrow)
+	num = 0;
+	while (*str)
 	{
-		coors[i] = malloc(sizeof(t_coor) * data->ncol);
-		if (!coors[i])
-			return ;
-		i++;
+		num *= 16;
+		if (*str >= 'a' && *str <= 'f')
+			num += (*str - 'a') + 10;
+		else if (*str >= 'A' && *str <= 'F')
+			num += (*str - 'A') + 10;
+		else
+			num += *str - '0';
+		str++;
 	}
-	data->coors = coors;
+	return (num);
 }

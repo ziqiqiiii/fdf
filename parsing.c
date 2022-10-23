@@ -6,18 +6,38 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 18:59:20 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/22 22:40:58 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/23 17:17:36 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "./includes/fdf.h"
 
-void	printing_error(t_data *data, char *error)
+static void	error_check_rowcolumn(t_data *data, int i, char *gnl)
 {
-	if (data)
-		free(data);
-	write(1, error, ft_strlen(error));
-	exit(-1);
+	if (data->ncol == 0)
+		data->ncol = i;
+	else
+	{
+		if (data->ncol != i || gnl == NULL)
+		{
+			ft_putstr_fd("Error: invalid number of lines\n", 2);
+			exit (-1);
+		}
+	}
+}
+
+static int	loop_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (*split)
+	{
+		i++;
+		free(*split);
+		split++;
+	}
+	return (i);
 }
 
 void	count_row_column(t_data *data, char **argv)
@@ -26,9 +46,7 @@ void	count_row_column(t_data *data, char **argv)
 	char	*gnl;
 	char	**split;
 	int		i;
-	int		a;
 
-	a = 1;
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return ;
@@ -38,29 +56,10 @@ void	count_row_column(t_data *data, char **argv)
 		if (gnl == NULL)
 			break ;
 		split = ft_split(gnl, ' ');
-		i = 0;
-		while (*split)
-		{
-			i++;
-			free(*split);
-			split++;
-		}
-		if (data->ncol == 0)
-			data->ncol = i;
-		else
-		{
-			data->ncol += i;
-			if (data->ncol / a != i)
-			{
-				ft_putstr_fd("Error: invalid number of lines\n", 2);
-				exit (-1);
-			}
-		}
+		i = loop_split(split);
+		error_check_rowcolumn(data, i, gnl);
 		free(gnl);
 		data->nrow++;
-		a++;
-		// printf("row %i col %i\n", data->nrow, data->ncol);
 	}
-	data->ncol = data->ncol / data->nrow;
 	close(fd);
 }
