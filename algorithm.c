@@ -6,7 +6,7 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 12:56:36 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/23 18:16:51 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/10/23 20:12:19 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	translation(t_data *data)
 		while (i < data->ncol)
 		{
 			data->coors[j][i].x += data->center_translation.x;
-			data->coors[j][i].y += data->center_translation.y + 200;
+			data->coors[j][i].y += data->center_translation.y;
 			i++;
 		}
 		j++;
@@ -42,11 +42,8 @@ void	center(t_data *data)
 	max_x = data->coors[0][data->ncol - 1].z;
 	min_y = data->coors[0][0].y;
 	max_y = data->coors[data->nrow - 1][data->ncol - 1].y;
-	data->center.x = (max_x - min_x) / 2 + min_x;
-	data->center.y = (max_y - min_y) / 2;
 	data->center_translation.x = 1920 - (max_x - min_x);
 	data->center_translation.x /= 2;
-	data->center_translation.x -= min_x;
 	data->center_translation.y = 1080 - (max_y - min_y);
 	data->center_translation.y /= 2;
 	translation(data);
