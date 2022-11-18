@@ -6,11 +6,12 @@
 /*   By: tzi-qi <tzi-qi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 18:59:20 by tzi-qi            #+#    #+#             */
-/*   Updated: 2022/10/23 17:17:36 by tzi-qi           ###   ########.fr       */
+/*   Updated: 2022/11/17 18:52:44 by tzi-qi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/fdf.h"
+#include <stdio.h>
 
 static void	error_check_rowcolumn(t_data *data, int i, char *gnl)
 {
@@ -28,14 +29,16 @@ static void	error_check_rowcolumn(t_data *data, int i, char *gnl)
 
 static int	loop_split(char **split)
 {
-	int	i;
+	int		i;
+	char	*temp;
 
 	i = 0;
 	while (*split)
 	{
 		i++;
-		free(*split);
+		temp = *split;
 		split++;
+		free(temp);
 	}
 	return (i);
 }
@@ -57,6 +60,7 @@ void	count_row_column(t_data *data, char **argv)
 			break ;
 		split = ft_split(gnl, ' ');
 		i = loop_split(split);
+		free(split);
 		error_check_rowcolumn(data, i, gnl);
 		free(gnl);
 		data->nrow++;
